@@ -1,0 +1,146 @@
+# Syntax Highlighting with Treesitter
+
+This blog will show you how you can setup neovim and some syntax highlighting in it using the Lua programming language.
+
+What is treesitter?
+
+From the treesitter GitHub README:
+
+> Tree-sitter is a parser generator tool and an incremental parsing library. It can build a concrete syntax tree for a source file and efficiently update the syntax tree as the source file is edited. Tree-sitter aims to be:
+> - **General** enough to parse any programming language
+> - **Fast** enough to parse on every keystroke in a text editor
+> - **Robust** enough to provide useful results even in the presence of syntax errors
+> - **Dependency-free** so that the runtime library (which is written in pure C) can be embedded in any application
+
+So, let's see how we can set up neovim and treesitter.
+
+
+## Initial neovim setup
+
+* Mac: `brew install neovim`
+* Arch: `sudo pacman -S neovim`
+* Void: `sudo xbps-install -S neovim`
+* Ubuntu: `sudo apt-get install neovim`
+* Windows: _dont use windows_
+
+## Create config directory and init.lua file
+
+```bash
+mkdir ~/.config/nvim
+cd ~/.config/nvim
+touch init.lua
+```
+
+## Install packer.nvim
+
+packer.nvim is a use-package inspired plugin manager for Neovim. Uses native packages, supports Luarocks dependencies, written in Lua, allows for expressive config.
+
+```bash
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+```
+
+## Create folder for plugins
+
+Now that packer.nvim has been installed, we need to create a folder called `lua`. This will contain all configurations for all the plugins. After we create the `lua` folder, we need to create a folder called `plugins` inside it. This will have a file called init.lua which will automatically be run when we `require` or source the `plugins` folder.
+
+```bash
+mkdir -p lua/plugins/
+touch lua/plugins/init.lua
+nvim lua/plugins/init.lua
+```
+
+##  Setup plugins
+
+Now, you are in the `lua/plugins/init.lua` file where you can add the plugins that you like. In this case we are going to install a nice colorscheme and treesitter.
+
+```lua
+require('packer').startup(function(use)
+  use 'wbthomason/packer.nvim'
+  use 'shaunsingh/nord.nvim'
+  use {'nvim-treesitter/nvim-treesitter', run = ":TSUpdate"}
+end)
+```
+
+#### What's going on here?
+
+First we are calling a function from the packer(our package manager) module and then we are running a function where we are defining all the plugins that we want to use. We have added the plugins: `nord.nvim` and `nvim-treesitter`. If you read the code then you will notice that there is a `run` keyword where we have installed treesitter. It will just run the command that is specified in the string, which is `:TSUpdate` in our case.
+
+## Loading the plugins file
+
+To install these plugins, we first need to run this lua file. We can do that by using the `require` keyword. This keyword will load the specified module if it is found in the `runtimepath`. Let's just say that it will load a folder inside our `lua` folder for now.
+
+To require our `plugins` folder we can add this line to our `~/.config/nvim/init.lua` file:
+
+```lua
+require('plugins')
+```
+
+This will automatically load the `init.lua` file in our `lua/plugins` folder.
+
+## Installing the plugins
+
+Now we need to **actually** install these plugins to our local computer.
+
+To do this we can restart neovim and run the command `:PackerSync`. This command will automatically remove the unused plugins, update existing plugins, install new plugins and compile new configuration for plugins. You should see a split window open to the left side which says that it is installing the plugins. If it says that it has installed both the plugins then you have successfully installed your first plugins with `packer.nvim`!
+
+
+
+## Using our colorscheme
+
+Your colorscheme might be looking pretty bad right now. So, we are going to change it! We also installed a colorscheme called `nord.nvim`. It is my favourite colorscheme right now. How can we use it everytime we open neovim?
+
+We can do it by using a function called `vim.cmd` which will run any vim script commands in a lua file. To use it to set our colorscheme we can add this to our `~/.config/nvim/init.lua` file:
+
+```lua
+vim.cmd('colorscheme nord')
+```
+
+## Configuring treesitter
+
+To use treesitter we have to configure it. We are going to create the configuration in a folder called `treesitter-config` in our `~/.config/nvim/lua/` folder. This folder will have a file called `init.lua`. To create it run this in your terminal:
+```bash
+mkdir ~/.config/nvim/lua/treesitter-config/
+nvim !$/init.lua
+```
+
+Now the folder has been created and now you are in the `init.lua` file that we just created. So, let's configure treesitter:
+
+```lua
+require'nvim-treesitter.configs'.setup {
+  -- List of languages we want parsers to always be installed
+  ensure_installed = {"html", "javascript", "lua"}, -- Add the languages that you use here. 
+  -- You can also install all the parsers by changing the value to {"all"} or {"maintained"}
+  -- Enable Syntax Highlighting
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false, -- Disables default vim regex highlighting
+  },
+}
+```
+
+## Run the treesitter config file
+
+To use this configuration that we just added, we have to add a line to our `~/.config/nvim/init.lua` file. Just like our `plugins` folder, we have to `require` the treesitter module:
+
+```lua
+require('treesitter-config')
+```
+
+## Let's test treesitter
+
+Now we have configured treesitter properly and if you restart neovim, you should see that treesitter is installing some parsers at the bottom of your screen. After that has been installed, you can test it by going into any file that you have installed treesitter parsers for.  Then, run the command `:TSBufToggle highlight`. This command will toggle highlighting for treesitter so that you can see the difference between when treesitter is enabled and when it is disabled. When treesitter is enabled, the syntax highlighting gets way better than when it is disabled. This is only one use for treesitter. Treesitter can do many more things than just syntax highlighting. We will see some plugins that use treesitter later.
+
+## Lua learning resources
+
+[nvim-lua-guide](https://github.com/nanotee/nvim-lua-guide)
+
+[Lua Reference Manual](https://www.lua.org/manual/5.4/)
+
+[Neovim 0.5 features and the switch to init.lua](https://oroques.dev/notes/neovim-init/)
+
+___________________
+
+**Note**: This is a blog version of my youtube video on using treesitter. It is the first video of a series call "Neovim Lua From Scratch". You can find the video [here](https://www.youtube.com/watch?v=r3NOB8UjIPc). And the playlist is [here](https://www.youtube.com/playlist?list=PLPDVgSbOnt7LXQ8DTzu37UwCpA0elyD0V).
+
+

@@ -1,0 +1,20 @@
+{
+  "name": "nextmdx",
+  "version": "1.0.0",
+  "description": "Trying to use mdx with next.js",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build"
+  },
+  "keywords": [],
+  "author": "Neil Sabde",
+  "license": "MIT",
+  "dependencies": {
+    "@mdx-js/loader": "^1.6.22",
+    "@next/mdx": "^12.0.3",
+    "next": "^12.0.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
