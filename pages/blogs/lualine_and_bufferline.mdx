@@ -1,0 +1,82 @@
+# Installing lualine.nvim and bufferline.nvim
+
+This blog will show you how you can use `lualine.nvim` and `bufferline.nvim` for showing a statusline and buffer list in neovim.
+
+## Install the plugins using packer
+
+First we need to install these plugins to use them. To do that open your `plugins/init.lua` file in your `~/.config/nvim/lua` folder.
+
+Your file should look something like this if you have been following this blog series:
+
+```lua
+return require('packer').startup(function(use)
+  use 'wbthomason/packer.nvim'
+  use 'shaunsingh/nord.nvim'
+  use {'nvim-treesitter/nvim-treesitter', run = ":TSUpdate"}
+  -- Add these lines
+  -- [[[
+  use {
+    'hoob3rt/lualine.nvim',
+    requires = {'kyazdani42/nvim-web-devicons', opt = true}
+  }
+  use {'akinsho/bufferline.nvim', requires = 'kyazdani42/nvim-web-devicons'}  
+  -- ]]]
+end)
+```
+
+Now you can restart neovim and then run `:PackerSync`. This will install the two plugins.
+
+## Configuring the lualine.nvim plugin
+
+So we have installed the plugins. Now we need to configure them. First let's make a configuration folder for `lualine.nvim` and also an `init.lua` file inside it.
+
+```bash
+mkdir ~/.config/nvim/lua/lualine-config/
+nvim !$/init.lua
+```
+
+Now you can paste the configuration in the file:
+
+```lua
+require('lualine').setup({
+  options = {theme = 'nord', section_separators = '', component_separators = ''}
+})
+```
+
+To run the file whenever neovim is opened, we have to add this in our `~/.config/nvim/init.lua` file:
+
+```lua
+require('lualine-config')
+```
+
+If you restart neovim, you should see a beautiful statusline at the bottom of your neovim window!
+
+## Configuring the bufferline.nvim plugin
+
+To configure bufferline, create a folder called `bufferline-config` in the `lua` folder in `~/.config/nvim`:
+
+```bash
+mkdir ~/.config/nvim/lua/bufferline-config/
+nvim !$/init.lua
+```
+
+Now you can add this configuration in the file:
+
+```lua
+require("bufferline").setup{}
+vim.api.nvim_set_keymap('n', '<TAB>', ':BufferLineCycleNext', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<S-TAB>', ':BufferLineCyclePrev', {noremap = true, silent = true})
+```
+To run the file whenever neovim is opened, we have to add this in our `~/.config/nvim/init.lua` file:
+
+```lua
+require('bufferline-config')
+```
+
+Restart neovim and you will be able to see `bufferline` on the top of the window! When you open multiple buffers, you can cycle through them using the `TAB` and `Shift-TAB` keybindings.
+
+That's it! You have successfully added a beautiful statusline and bufferline to neovim using lua!
+
+___
+
+**Note**: This is a blog version of my youtube video on using treesitter. It is the first video of a series call "Neovim Lua From Scratch". You can find the video [here](https://www.youtube.com/watch?v=quPUdKBYScY&t=8s). And the playlist is [here](https://www.youtube.com/playlist?list=PLPDVgSbOnt7LXQ8DTzu37UwCpA0elyD0V).

@@ -15,6 +15,14 @@ const data = [
     description:
       "Settings in Neovim are stored in a lua file. This article explains how to use the lua file to store settings.",
   },
+  {
+    key: "3",
+    slug: "lualine_and_bufferline",
+    title: "Installing LuaLine and BufferLine",
+    date: "Sep 10 2021",
+    description:
+      "This blog will show you how you can use lualine.nvim and bufferline.nvim for showing a statusline and buffer list in neovim.",
+  },
 ];
 
 export default data;
