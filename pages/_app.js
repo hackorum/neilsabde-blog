@@ -1,5 +1,20 @@
-import "../styles/globals.css";
+import { useEffect } from "react";
 import { MDXProvider } from "@mdx-js/react";
+import Head from "next/head";
+import hljs from "highlight.js";
+import "../styles/globals.css";
+import lua from "highlight.js/lib/languages/lua";
+import bash from "highlight.js/lib/languages/bash";
+hljs.registerLanguage("lua", lua);
+hljs.registerLanguage("bash", bash);
+
+// quick and dirty hack lol
+function getLanguage(text) {
+  if (text.startsWith("mkdir") || text.startsWith("git")) {
+    return "bash";
+  }
+  return "lua";
+}
 
 const mdComponents = {
   h1: ({ children }) => <h1 style={{ textAlign: "center" }}>{children}</h1>,
@@ -21,10 +36,16 @@ const mdComponents = {
   ),
   ul: ({ children }) => <ul>{children}</ul>,
   li: ({ children }) => <li>{children}</li>,
-  blockquote: ({ children }) => <blockquote>{children}</blockquote>,
+  blockquote: ({ children }) => (
+    <blockquote style={{ borderLeft: "5px solid", paddingLeft: 15 }}>
+      {children}
+    </blockquote>
+  ),
   pre: ({ children }) => <pre>{children}</pre>,
   code: ({ children }) => (
-    <code style={{ backgroundColor: "#f2f2f2" }}>{children}</code>
+    <pre>
+      <code className={getLanguage(children)}>{children}</code>
+    </pre>
   ),
   inlineCode: ({ children }) => (
     <code style={{ backgroundColor: "#f2f2f2" }}>{children}</code>
@@ -52,10 +73,21 @@ const mdComponents = {
 };
 
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    hljs.initHighlighting();
+  }, []);
   return (
-    <MDXProvider components={mdComponents}>
-      <Component {...pageProps} />
-    </MDXProvider>
+    <>
+      <Head>
+        <link
+          rel="stylesheet"
+          href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.2/build/styles/default.min.css"
+        ></link>
+      </Head>
+      <MDXProvider components={mdComponents}>
+        <Component {...pageProps} />
+      </MDXProvider>
+    </>
   );
 }
 
