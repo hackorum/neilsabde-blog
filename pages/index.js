@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import BlogLink from "../components/BlogLink";
 import articles from "../data/articles.js";
 import styles from "../styles/index.module.css";
@@ -6,7 +5,7 @@ import Head from "next/head";
 
 const Home = () => {
   return (
-    <Fragment>
+    <>
       <Head>
         <title>Home</title>
       </Head>
@@ -22,7 +21,7 @@ const Home = () => {
           />
         ))}
       </main>
-    </Fragment>
+    </>
   );
 };
 export default Home;
