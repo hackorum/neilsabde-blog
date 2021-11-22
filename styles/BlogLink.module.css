@@ -1,5 +1,5 @@
 .container {
-  background-color: #f2f2f2;
+  background-color: #1a242f;
   padding: 20px;
   margin: 15px 5px;
   border-radius: 5px;
@@ -8,6 +8,6 @@
 .title {
   text-decoration: none;
   font-size: 1.5em;
-  color: #4d4d4d;
+  color: #f2f2f2;
   font-weight: bold;
 }
