@@ -1,3 +1,15 @@
+import BlogPost from '../../components/BlogPost'
+
+export const meta = {
+  title: "Settings In Neovim",
+  description: "Settings in Neovim are stored in a lua file. This article explains how to use the lua file to store settings.",
+  date: "Sep 5 2021",
+}
+
+export default ({children}) => (
+  <BlogPost meta={meta}>{children}</BlogPost>
+)
+
 # Settings in Neovim
 
 In this blog I want to show you some sane settings that I use daily. If you have used vim or neovim with a vimscript configuration before then I am pretty sure that you know about globals and settings using the `set` keyword. In lua, we can add settings with the `vim.o` object.

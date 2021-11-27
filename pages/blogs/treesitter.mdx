@@ -1,3 +1,15 @@
+import BlogPost from '../../components/BlogPost'
+
+export const meta = {
+  title: 'Treesitter Syntax Highlighting',
+  description: 'Treesitter is a syntax highlighter for the Vim editor. It highlights syntax in JavaScript, HTML, CSS, and more.',
+  date: 'Sep 4 2021',
+}
+
+export default ({children}) => (
+  <BlogPost meta={meta}>{children}</BlogPost>
+)
+
 # Syntax Highlighting with Treesitter
 
 This blog will show you how you can setup neovim and some syntax highlighting in it using the Lua programming language.

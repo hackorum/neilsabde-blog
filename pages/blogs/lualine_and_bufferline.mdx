@@ -1,3 +1,15 @@
+import BlogPost from '../../components/BlogPost'
+
+export const meta = {
+  title: 'Installing LuaLine and BufferLine',
+  description: "This blog will show you how you can use lualine.nvim and bufferline.nvim for showing a statusline and buffer list in neovim.",
+  date: "Sep 10 2021",
+}
+
+export default ({children}) => (
+  <BlogPost meta={meta}>{children}</BlogPost>
+)
+
 # Installing lualine.nvim and bufferline.nvim
 
 This blog will show you how you can use `lualine.nvim` and `bufferline.nvim` for showing a statusline and buffer list in neovim.

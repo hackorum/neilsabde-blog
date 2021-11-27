@@ -1,28 +1,29 @@
 code[class*="language-"],
 pre[class*="language-"] {
-	color: #e0def4;
-	background: #191724;
-	font-family: "Cartograph CF", ui-monospace, SFMono-Regular, Menlo, Monaco,
-		Consolas, "Liberation Mono", "Courier New", monospace;
-	text-align: left;
-	white-space: pre;
-	word-spacing: normal;
-	word-break: normal;
-	word-wrap: normal;
-	line-height: 1.5;
+  color: #e0def4;
+  background: #191724;
+  font-family: "Cartograph CF", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  border-radius: 8px;
+  border-width: 2px solid #fff;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
 
-	-moz-tab-size: 4;
-	-o-tab-size: 4;
-	tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
 
-	-webkit-hyphens: none;
-	-moz-hyphens: none;
-	-ms-hyphens: none;
-	hyphens: none;
-
-	@media print {
-		text-shadow: none;
-	}
+  @media print {
+    text-shadow: none;
+  }
 }
 
 /* Selection */
@@ -30,47 +31,47 @@ code[class*="language-"]::-moz-selection,
 pre[class*="language-"]::-moz-selection,
 code[class*="language-"] ::-moz-selection,
 pre[class*="language-"] ::-moz-selection {
-	background: #2a2837;
+  background: #2a2837;
 }
 
 code[class*="language-"]::selection,
 pre[class*="language-"]::selection,
 code[class*="language-"] ::selection,
 pre[class*="language-"] ::selection {
-	background: #2a2837;
+  background: #2a2837;
 }
 
 /* Code (block & inline) */
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-	color: #e0def4;
-	background: #191724;
+  color: #e0def4;
+  background: #191724;
 }
 
 /* Code blocks */
 pre[class*="language-"] {
-	padding: 1em;
-	margin: 0.5em 0;
-	overflow: auto;
+  padding: 1em;
+  margin: 0.5em 0;
+  overflow: auto;
 }
 
 /* Inline code */
 :not(pre) > code[class*="language-"] {
-	padding: 0.1em;
-	border-radius: 0.3em;
-	white-space: normal;
-	color: #e0def4;
-	background: #191724;
+  padding: 0.1em;
+  border-radius: 0.3em;
+  white-space: normal;
+  color: #e0def4;
+  background: #191724;
 }
 
 /* Text style & opacity */
 .token.entity {
-	cursor: help;
+  cursor: help;
 }
 
 .token.important,
 .token.bold {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .token.italic,
@@ -85,27 +86,27 @@ pre[class*="language-"] {
 .token.constant,
 .token.parameter,
 .token.url {
-	font-style: italic;
+  font-style: italic;
 }
 
 .token.url {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .namespace {
-	opacity: 0.7;
+  opacity: 0.7;
 }
 
 /* Syntax highlighting */
 .token.constant {
-	color: #e0def4;
+  color: #e0def4;
 }
 
 .token.comment,
 .token.prolog,
 .token.cdata,
 .token.punctuation {
-	color: #555169;
+  color: #555169;
 }
 
 .token.delimiter,
@@ -113,7 +114,7 @@ pre[class*="language-"] {
 .token.atrule,
 .token.operator,
 .token.keyword {
-	color: #31748f;
+  color: #31748f;
 }
 
 .token.tag,
@@ -124,7 +125,7 @@ pre[class*="language-"] {
 .token.class-name,
 .token.selector,
 .token.inserted {
-	color: #9ccfd8;
+  color: #9ccfd8;
 }
 
 .token.boolean,
@@ -132,7 +133,7 @@ pre[class*="language-"] {
 .token.number,
 .token.symbol,
 .token.function {
-	color: #ebbcba;
+  color: #ebbcba;
 }
 
 .token.string,
@@ -140,7 +141,7 @@ pre[class*="language-"] {
 .token.property,
 .token.attr-value,
 .token.attr-value .punctuation {
-	color: #f6c177;
+  color: #f6c177;
 }
 
 .token.parameter,
@@ -148,47 +149,47 @@ pre[class*="language-"] {
 .token.name,
 .token.attr-name,
 .token.builtin {
-	color: #c4a7e7;
+  color: #c4a7e7;
 }
 
 .token.deleted {
-	color: #eb6f92;
+  color: #eb6f92;
 }
 
 /* Insertions & deletions */
 .token.inserted {
-	background: rgba(156 207 216 0.12);
+  background: rgba(156 207 216 0.12);
 }
 
 .token.deleted {
-	background: rgba(235 111 146 0.12);
+  background: rgba(235 111 146 0.12);
 }
 
 /* Line highlighting */
 pre[data-line] {
-	position: relative;
+  position: relative;
 }
 
 pre[class*="language-"] > code[class*="language-"] {
-	position: relative;
-	z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .line-highlight,
 .highlight-lines .highlighted {
-	position: absolute;
-	left: 0;
-	right: 0;
-	padding: inherit 0;
-	margin-top: 1em;
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
 
-	background: #2a2837;
-	box-shadow: inset 5px 0 0 #e0def4;
+  background: #2a2837;
+  box-shadow: inset 5px 0 0 #e0def4;
 
-	z-index: 0;
+  z-index: 0;
 
-	pointer-events: none;
+  pointer-events: none;
 
-	line-height: inherit;
-	white-space: pre;
+  line-height: inherit;
+  white-space: pre;
 }
