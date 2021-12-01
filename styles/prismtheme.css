@@ -26,6 +26,12 @@ pre[class*="language-"] {
   }
 }
 
+pre[class*="language-"] {
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
 /* Selection */
 code[class*="language-"]::-moz-selection,
 pre[class*="language-"]::-moz-selection,
