@@ -1,0 +1,55 @@
+import BlogPost from '../../components/BlogPost'
+
+export const meta = {
+  title: 'Installing nvim-tree.lua',
+  description: "In this blog you will see how you can use a plugin called nvim-tree.lua. It is a file explorer for neovim written in lua.",
+  date: "Sep 12 2021",
+}
+
+export default ({children}) => (
+  <BlogPost meta={meta}>{children}</BlogPost>
+)
+
+# Installing nvim-tree.lua
+
+In this blog you will see how you can use a plugin called `nvim-tree.lua`. It is a file explorer for neovim written in lua.
+
+## Install using packer.nvim
+
+Go to your `~/.config/nvim/lua/plugins/init.lu` file and then add this inside the packer startup function:
+
+```lua
+use {'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons'}
+```
+
+Then restart neovim and then do `:PackerSync`. This command will install the plugin and update existing ones.
+
+# Configuring the plugin
+
+So we have installed the plugin. Now we need to configure it. First let's make a configuration folder for nvim-tree and also an `init.lua` file inside it.
+
+```bash
+mkdir ~/.config/nvim/lua/nvimtree-config
+nvim !$/init.lua
+```
+
+Now you can paste the configuration in the file:
+
+```lua
+vim.g.nvim_tree_width = 25
+vim.g.nvim_tree_indent_markers = 1
+require'nvim-tree'.setup {auto_open = 1, auto_close = 1, gitignore = 1}
+vim.cmd('nnoremap <space>e :NvimTreeToggle<CR>')
+```
+
+To run the file whenever neovim is opened, we have to add this in our `~/.config/nvim/init.lua` file:
+
+```lua
+require('nvimtree-config')
+```
+
+After saving the file, you can restart neovim and if you press space+e, you will see a nice file tree open at the left side of your window
+And that's it! You have successfully added a simple file explorer to neovim using lua!
+___
+
+**Note**: This is a blog version of my youtube video. It is a video of a series call "Neovim Lua From Scratch". You can find the video [here](https://www.youtube.com/watch?v=qu2xN8EkbOQ). And the playlist is [here](https://www.youtube.com/playlist?list=PLPDVgSbOnt7LXQ8DTzu37UwCpA0elyD0V).
