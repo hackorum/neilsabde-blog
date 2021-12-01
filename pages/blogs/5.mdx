@@ -1,0 +1,97 @@
+import BlogPost from '../../components/BlogPost'
+
+export const meta = {
+  title: 'Treesitter Plugins',
+  description: "In this blog, I show you some treesitter plugins that help saving time and how you can install and configure them.",
+  date: "Sep 15 2021",
+}
+
+export default ({children}) => (
+  <BlogPost meta={meta}>{children}</BlogPost>
+)
+
+# Treesitter Plugins
+
+In this blog, I show you some treesitter plugins that help saving time and how you can install and configure them.
+
+## Installing the plugins
+
+First open your `plugins/init.lua` file and add these plugins inside the packer setup function:
+
+```lua
+  use {'windwp/nvim-ts-autotag'} -- Automatically closes tags
+  use {'p00f/nvim-ts-rainbow'} -- Highlights different pairs of brackets in different colors
+  use {'windwp/nvim-autopairs'} -- Automatically closes parentheses, brackets and quotes
+```
+
+After you have added these plugins, you can restart neovim and then run `:PackerSync`. This will install the new plugins and update existing ones.
+
+## Enabling the plugins
+
+Now that the plugins have been installed, you need to enable them in your treesitter config file. Your config file should look something like this:
+
+```lua
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {"html", "javascript", "lua"},
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+  autotag = {
+    enable = true,
+  },
+  rainbow = {
+    enable = true,
+    extended_mode = false, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+    -- colors = {}, -- table of hex strings
+    -- termcolors = {} -- table of colour name strings
+  },
+  autopairs = {
+    enable = true
+  }
+}
+```
+
+This will enable `highlight`, `autotag`,`rainbow` and `autopairs`.
+
+## Configuring autopairs
+
+The autopairs plugin requires a little bit more configuration. To do that, we can create a folder called `autopairs-config` in our `lua` folder:
+
+```bash
+mkdir ~/.config/nvim/lua/autopairs-config
+nvim !$/init.lua
+```
+
+This will open the file in neovim. Add the following configuration to it:
+
+```lua
+require('nvim-autopairs').setup({
+  check_ts = true,
+})
+local remap = vim.api.nvim_set_keymap
+local npairs = require('nvim-autopairs')
+
+-- skip it, if you use another global object
+_G.MUtils= {}
+
+MUtils.completion_confirm=function()
+  if vim.fn.pumvisible() ~= 0  then
+      return npairs.esc("<cr>")
+  else
+    return npairs.autopairs_cr()
+  end
+end
+
+
+remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
+```
+
+This will just add some indentation when you press enter inside brackets.
+
+And that's it!
+
+---
+
+**Note**: This is a blog version of my youtube video. It is a video of a series call "Neovim Lua From Scratch". You can find the video [here](https://www.youtube.com/watch?v=BOkZsBMVFO8). And the playlist is [here](https://www.youtube.com/playlist?list=PLPDVgSbOnt7LXQ8DTzu37UwCpA0elyD0V).
