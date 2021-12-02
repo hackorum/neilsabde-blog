@@ -1,0 +1,101 @@
+import BlogPost from '../../components/BlogPost'
+
+export const meta = {
+  title: 'Keybindings And Whichkey.nvim',
+  description: "In this blog I show you how to use some keybindings and a plugin called `whichkey.nvim` using Lua",
+  date: "Sep 25 2021",
+}
+
+export default ({children}) => (
+  <BlogPost meta={meta}>{children}</BlogPost>
+)
+
+# Keybindings And Whichkey.nvim
+
+In this blog I show you how to use some keybindings and a plugin called `whichkey.nvim` using Lua. To get started you need to create a folder called `keybindings` in the `lua` folder and a file called `init.lua` inside it:
+
+```bash
+mkdir ~/.config/nvim/lua/keybindings
+nvim !$/init.lua
+```
+
+This will create a folder and open the file in neovim.
+
+Paste these keybindings into the file:
+
+```lua
+vim.g.mapleader = ' ' -- Change the leader key from ctrl+\ to only space
+
+local map = vim.api.nvim_set_keymap
+
+-- For moving between different splits you can use c-h c-j c-k c-l
+map('n', '<C-h>', '<C-w>h', {noremap = true, silent = false})
+map('n', '<C-l>', '<C-w>l', {noremap = true, silent = false})
+map('n', '<C-j>', '<C-w>j', {noremap = true, silent = false})
+map('n', '<C-k>', '<C-w>k', {noremap = true, silent = false})
+
+-- Map jk or kj to escape in insert mode
+map('i', 'jk', '<ESC>', {noremap = true, silent = false})
+map('i', 'kj', '<ESC>', {noremap = true, silent = false})
+
+-- Makes indentation better
+map('v', '<', '<gv', {noremap = true, silent = false})
+map('v', '>', '>gv', {noremap = true, silent = false})
+```
+
+Now these keybindings have been added. You need to require this file inside your main `~/.config/nvim/init.lua` file:
+
+```lua
+require('keybindings')
+```
+
+Done! You can try these keybindings in your neovim now. 
+
+But wait! There's more!
+
+You can use a plugin called `which-key.nvim` to show a popup from the bottom of the screen whenever you press the leader(space) key.
+
+To install it, add this to your packer startup `~/.config/nvim/lua/plugins/init.lua`:
+
+```lua
+use 'folke/which-key.nvim'
+```
+
+After you have done that, restart neovim and run `:PackerSync` to install the plugin and update the existing ones.
+
+Now we need to create a config folder for `whichkey`:
+
+```bash
+mkdir ~/.config/nvim/lua/whichkey-config
+nvim !$/init.lua
+```
+
+Add this configuration in the file:
+
+```lua
+local wk = require("which-key")
+local mappings = {
+  q = {":q<cr>", "Quit"},
+  Q = {":wq<cr>", "Save & Quit"},
+  w = {":w<cr>", "Save"},
+  x = {":bdelete<cr>", "Close"},
+  e = {':NvimTreeToggle', "Nvim Tree"}
+  E = {":e ~/.config/nvim/init.lua", "Edit config"}
+}
+local opts = {prefix = '<leader>'}
+wk.register(mappings, opts)
+```
+
+Again, we need to require this file in our `~/.config/nvim/init.lua`:
+
+```lua
+require('whichkey-config')
+```
+
+Now you can press the spacebar and you will see a bunch of options at the bottom of the screen.
+
+And that's it! You have successfully setup some basic keybindings and `which-key.nvim`
+
+---
+
+**Note**: This is a blog version of my youtube video. It is a video of a series call "Neovim Lua From Scratch". You can find the video [here](https://www.youtube.com/watch?v=sDgEyKtMthQ&t). And the playlist is [here](https://www.youtube.com/playlist?list=PLPDVgSbOnt7LXQ8DTzu37UwCpA0elyD0V).
