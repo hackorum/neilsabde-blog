@@ -1,0 +1,129 @@
+import BlogPost from '../../components/BlogPost'
+
+export const meta = {
+  title: 'Using telescope.nvim for fuzzy finding',
+  description: "In this blog I show you how you can use a plugin called `telescope.nvim` for fuzzy finding files, buffers, old files, text and so on...",
+  date: "Oct 7 2021",
+}
+
+export default ({children}) => (
+  <BlogPost meta={meta}>{children}</BlogPost>
+)
+
+# Using telescope.nvim for fuzzy finding
+
+In this blog I show you how you can use a plugin called `telescope.nvim` for fuzzy finding files, buffers, old files, text and so on...
+
+**Make sure you have installed rg or ripgrep on your system**
+
+First we need to install the plugin using `packer.nvim`. Add this to your packer startup function:
+
+```lua
+use 'nvim-telescope/telescope.nvim'
+```
+
+Now restart neovim and run `:PackerSync`. This will install the plugin and update existing plugins.
+
+After the plugin has been installed, you need to add some configuration for it. To do that, we need to create a folder called `telescope-config` inside our `lua` folder:
+
+```bash
+mkdir ~/.config/nvim/lua/telescope-config
+nvim !$/init.lua
+```
+
+This will open the `init.lua` file in neovim. Here you can paste the following config:
+
+```lua
+local actions = require('telescope.actions')
+require('telescope').setup {
+    defaults = {
+        layout_config = {
+          width = 0.75,
+          prompt_position = "top",
+          preview_cutoff = 120,
+          horizontal = {mirror = false},
+          vertical = {mirror = false},
+        },
+        find_command = {'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case'},
+        prompt_prefix = "? ",
+        selection_caret = "? ",
+        entry_prefix = "  ",
+        initial_mode = "insert",
+        selection_strategy = "reset",
+        sorting_strategy = "descending",
+        layout_strategy = "horizontal",
+        file_sorter = require'telescope.sorters'.get_fuzzy_file,
+        file_ignore_patterns = {},
+        generic_sorter =require'telescope.sorters'.get_generic_fuzzy_sorter,
+        path_display = {},
+        winblend = 0,
+        border = {},
+        borderchars = {'?', '?', '?', '?', '?', '?', '?', '?'},
+        color_devicons = true,
+        use_less = true,
+        set_env = {['COLORTERM'] = 'truecolor'}, -- default = nil,
+        file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
+        grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
+        qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
+        buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker,
+        mappings = {
+            i = {
+                ["<C-j>"] = actions.move_selection_next,
+                ["<C-k>"] = actions.move_selection_previous,
+                ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+                ["<esc>"] = actions.close,
+                ["<CR>"] = actions.select_default + actions.center
+            },
+            n = {
+                ["<C-j>"] = actions.move_selection_next,
+                ["<C-k>"] = actions.move_selection_previous,
+                ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+            }
+        }
+    }
+}
+```
+
+This is some configuration for the window position, borders and some keybindings.
+
+You will also need to require this configuration in your main `init.lua`:
+
+```lua
+require('telescope-config')
+```
+
+## Some useful commands
+
+You can try the following commands:
+
+* `:Telescope find_files` This will open a list of files in the cwd(current working directory) or in simple terms, current folder
+
+* `:Telescope live_grep` This command will return any files that have the current search query
+
+* `:Telescope buffers` This command will open a list of all open buffers
+
+* `:Telescope oldfiles` This command will open a list of recently opened files
+
+## Discovering new commands
+
+You can find other commands by pressing `:Telescop` and it will open a list of all the available commands.
+
+## Helpful which key keybindings
+
+Add this in your telescope mappings table for some useful keybindings:
+
+```lua
+f = {
+    name = "Telescope",
+    f = {"<cmd>Telescope find_files<cr>", "Find Files"},
+    r = {"<cmd>Telescope live_grep<cr>", "Live Grep"},
+    b = {"<cmd>Telescope buffers<cr>", "Buffers"},
+    o = {"<cmd>Telescope oldfiles<cr>", "Recent Files"}
+  }
+```
+
+And that's it! You have succesfully setup telescope and some keybindings to quickly navigate through files!
+
+---
+
+**Note**: This is a blog version of my youtube video. It is a video of a series call "Neovim Lua From Scratch". You can find the video [here](https://www.youtube.com/watch?v=1BnZmK26ykg). And the playlist is [here](https://www.youtube.com/playlist?list=PLPDVgSbOnt7LXQ8DTzu37UwCpA0elyD0V).
